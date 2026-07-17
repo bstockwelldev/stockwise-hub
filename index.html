@@ -4,7 +4,10 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Stockwise Productions — Home</title>
-<meta name="description" content="Personal hub for Stockwise Productions / bstockwelldev — live apps, repos, and Vercel projects." />
+<meta name="description" content="Personal hub for Stockwise Productions / bstockwelldev — live apps, tools, and repos." />
+<meta name="theme-color" content="#08090c" />
+<link rel="manifest" href="/manifest.webmanifest" />
+<link rel="apple-touch-icon" href="/icon-192.png" />
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%2318181f%22/><text x=%2250%22 y=%2266%22 font-size=%2258%22 text-anchor=%22middle%22 fill=%22%2300e5a0%22 font-family=%22monospace%22>S</text></svg>" />
 <style>
   :root {
@@ -16,11 +19,12 @@
     --border-hover: #33384a;
     --text: #e8e9ed;
     --text-dim: #9497a3;
-    --text-faint: #5c5f6b;
+    --text-faint: #868a97;
     --accent: #00e5a0;
     --accent-dim: #00b380;
     --accent-glow: rgba(0, 229, 160, 0.14);
     --accent-2: #6ea8ff;
+    --accent-2-glow: rgba(110, 168, 255, 0.14);
     --mono: "SF Mono", "Cascadia Code", Consolas, "Liberation Mono", Menlo, monospace;
     --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif;
   }
@@ -62,8 +66,10 @@
     z-index: 1;
     max-width: 1080px;
     margin: 0 auto;
-    padding: 56px 24px 80px;
+    padding: 40px 24px 72px;
   }
+
+  a { color: inherit; }
 
   /* ---------- Header ---------- */
   header {
@@ -72,7 +78,7 @@
     justify-content: space-between;
     gap: 24px;
     flex-wrap: wrap;
-    margin-bottom: 40px;
+    margin-bottom: 18px;
   }
 
   .brand {
@@ -82,9 +88,9 @@
   }
 
   .brand-mark {
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
     background: var(--bg-card);
     border: 1px solid var(--border);
     display: flex;
@@ -92,105 +98,324 @@
     justify-content: center;
     font-family: var(--mono);
     font-weight: 700;
-    font-size: 20px;
+    font-size: 18px;
     color: var(--accent);
     box-shadow: 0 0 0 1px transparent, 0 0 24px var(--accent-glow);
     flex-shrink: 0;
   }
 
   .brand-text .title {
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 600;
     letter-spacing: -0.01em;
   }
 
   .brand-text .subtitle {
     font-family: var(--mono);
-    font-size: 12.5px;
+    font-size: 12px;
     color: var(--text-faint);
-    margin-top: 2px;
+    margin-top: 1px;
   }
 
   .clock {
     text-align: right;
     font-family: var(--mono);
-    font-size: 12.5px;
+    font-size: 12px;
     color: var(--text-dim);
   }
 
   .clock .time {
-    font-size: 20px;
+    font-size: 18px;
     color: var(--text);
     font-weight: 600;
     letter-spacing: 0.02em;
   }
 
   .clock .date {
-    margin-top: 2px;
+    margin-top: 1px;
     color: var(--text-faint);
   }
 
-  /* ---------- Hero / quick links ---------- */
-  .hero {
-    margin-bottom: 36px;
+  /* ---------- Compact hero ---------- */
+  .hero-line {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
   }
 
-  .hero h1 {
-    font-size: clamp(28px, 4vw, 40px);
-    line-height: 1.15;
-    margin: 0 0 10px;
-    letter-spacing: -0.02em;
-    font-weight: 700;
-  }
-
-  .hero h1 span {
-    color: var(--accent);
-  }
-
-  .hero p {
-    color: var(--text-dim);
-    font-size: 15px;
-    max-width: 640px;
-    line-height: 1.6;
+  .hero-line h1 {
+    font-size: 19px;
     margin: 0;
+    font-weight: 600;
+    letter-spacing: -0.01em;
   }
+
+  .hero-line h1 span { color: var(--accent); }
 
   .quicklinks {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 22px;
+    gap: 8px;
   }
 
   .qlink {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 9px 14px;
-    border-radius: 9px;
+    gap: 7px;
+    padding: 5px 11px;
+    border-radius: 7px;
     background: var(--bg-card);
     border: 1px solid var(--border);
-    color: var(--text);
+    color: var(--text-dim);
     text-decoration: none;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 500;
-    transition: border-color 0.15s ease, transform 0.15s ease, background 0.15s ease;
+    transition: border-color 0.15s ease, color 0.15s ease;
   }
 
-  .qlink:hover {
-    border-color: var(--border-hover);
-    background: var(--bg-card-hover);
-    transform: translateY(-1px);
+  .qlink:hover { border-color: var(--border-hover); color: var(--text); }
+
+  /* ---------- Banner ---------- */
+  .banner {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 11px;
+    margin-bottom: 24px;
+    overflow: hidden;
   }
 
-  .qlink .dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--accent);
-    box-shadow: 0 0 8px var(--accent);
+  .banner[hidden] { display: none; }
+
+  .banner-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    cursor: pointer;
+  }
+
+  .banner-bar svg { color: var(--accent); flex-shrink: 0; }
+
+  .banner-bar .banner-text {
+    flex: 1;
+    font-size: 13px;
+    color: var(--text);
+  }
+
+  .banner-bar .banner-text b { color: var(--accent); font-weight: 600; }
+
+  .banner-chevron {
+    color: var(--text-faint);
+    transition: transform 0.15s ease;
     flex-shrink: 0;
   }
+
+  .banner.expanded .banner-chevron { transform: rotate(180deg); }
+
+  .banner-dismiss {
+    background: transparent;
+    border: none;
+    color: var(--text-faint);
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    padding: 4px 6px;
+    border-radius: 6px;
+    flex-shrink: 0;
+  }
+
+  .banner-dismiss:hover { color: var(--text); background: var(--bg-card-hover); }
+
+  .banner-panel {
+    display: none;
+    padding: 0 16px 16px;
+    border-top: 1px solid var(--border);
+  }
+
+  .banner.expanded .banner-panel { display: block; padding-top: 14px; }
+
+  .browser-tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+
+  .browser-tab {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 6px 11px;
+    border-radius: 7px;
+    cursor: pointer;
+  }
+
+  .browser-tab.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #05130d;
+  }
+
+  .browser-steps {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.7;
+    margin: 0 0 12px;
+    padding-left: 20px;
+  }
+
+  .browser-steps li strong { color: var(--text); }
+
+  .banner-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .banner-btn {
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 8px 13px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-dim);
+  }
+
+  .banner-btn:hover { border-color: var(--border-hover); color: var(--text); }
+
+  .banner-btn.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #05130d;
+  }
+
+  .banner-btn.primary:hover { background: #1fffbd; }
+
+  .banner-btn[hidden] { display: none; }
+
+  /* ---------- Section labels ---------- */
+  .section-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin: 22px 0 10px;
+  }
+
+  .section-label:first-of-type { margin-top: 0; }
+
+  /* ---------- Pinned row ---------- */
+  .pinned-row {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+
+  .pinned-row:empty { display: none; }
+
+  /* ---------- Tools ---------- */
+  .tools-group { margin-bottom: 4px; }
+
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 10px;
+  }
+
+  .tool-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 2px solid var(--tool-accent, var(--border));
+    border-radius: 10px;
+    padding: 10px 12px;
+    text-decoration: none;
+    color: var(--text);
+    transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+    position: relative;
+    min-width: 0;
+    flex-shrink: 0;
+  }
+
+  .tool-card:hover { background: var(--bg-card-hover); border-color: var(--border-hover); }
+
+  .tool-card.match { box-shadow: 0 0 0 1px var(--tool-accent, var(--accent)); }
+
+  .tool-card .fav-wrap {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+    border-radius: 5px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-elevated);
+  }
+
+  .fav-img { width: 100%; height: 100%; object-fit: contain; }
+
+  .fav-fallback {
+    width: 100%;
+    height: 100%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--tool-accent, var(--accent));
+    background: var(--bg-elevated);
+  }
+
+  .tool-card .tool-name {
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .star-btn {
+    width: 26px;
+    height: 26px;
+    min-width: 26px;
+    border-radius: 7px;
+    border: none;
+    background: transparent;
+    color: var(--text-faint);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  .star-btn::before {
+    content: "";
+    position: absolute;
+    inset: -7px;
+  }
+
+  .star-btn:hover { color: var(--text-dim); background: var(--bg-card-hover); }
+
+  .star-btn[aria-pressed="true"] { color: var(--accent); }
+
+  .star-btn svg { width: 15px; height: 15px; }
 
   /* ---------- Controls ---------- */
   .controls {
@@ -198,9 +423,6 @@
     align-items: center;
     gap: 12px;
     flex-wrap: wrap;
-    margin-bottom: 22px;
-    padding-bottom: 22px;
-    border-bottom: 1px solid var(--border);
   }
 
   .search {
@@ -234,6 +456,20 @@
     pointer-events: none;
   }
 
+  .search-hint {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--text-faint);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 2px 5px;
+    pointer-events: none;
+  }
+
   .filters {
     display: flex;
     gap: 6px;
@@ -254,12 +490,9 @@
     white-space: nowrap;
   }
 
-  .filter-btn:hover {
-    color: var(--text);
-    border-color: var(--border-hover);
-  }
+  .filter-btn:hover { color: var(--text); border-color: var(--border-hover); }
 
-  .filter-btn.active {
+  .filter-btn[aria-pressed="true"] {
     background: var(--accent);
     border-color: var(--accent);
     color: #05130d;
@@ -272,11 +505,12 @@
     white-space: nowrap;
   }
 
-  /* ---------- Grid ---------- */
+  /* ---------- Project grid ---------- */
   .grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 14px;
+    margin-top: 16px;
   }
 
   .card {
@@ -302,26 +536,40 @@
     pointer-events: none;
   }
 
-  .card:hover {
-    border-color: var(--border-hover);
-    background: var(--bg-card-hover);
-    transform: translateY(-2px);
-  }
-
+  .card:hover { border-color: var(--border-hover); background: var(--bg-card-hover); transform: translateY(-2px); }
   .card:hover::before { opacity: 1; }
 
   .card-top {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
-    gap: 10px;
+    gap: 8px;
   }
+
+  .card-top .fav-wrap {
+    width: 22px;
+    height: 22px;
+    border-radius: 5px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-elevated);
+    flex-shrink: 0;
+  }
+
+  .card-name-row { display: flex; align-items: center; gap: 9px; flex: 1; min-width: 0; }
 
   .card-name {
     font-size: 15px;
     font-weight: 600;
     letter-spacing: -0.01em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
+
+  .card-top-right { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
 
   .badge {
     font-family: var(--mono);
@@ -331,7 +579,6 @@
     padding: 3px 7px;
     border-radius: 5px;
     white-space: nowrap;
-    flex-shrink: 0;
     text-transform: uppercase;
   }
 
@@ -341,12 +588,7 @@
     border: 1px solid rgba(0, 229, 160, 0.25);
   }
 
-  .card-desc {
-    font-size: 13px;
-    line-height: 1.55;
-    color: var(--text-dim);
-    flex: 1;
-  }
+  .card-desc { font-size: 13px; line-height: 1.55; color: var(--text-dim); flex: 1; }
 
   .card-meta {
     display: flex;
@@ -357,18 +599,9 @@
     color: var(--text-faint);
   }
 
-  .lang-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
+  .lang-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 
-  .card-links {
-    display: flex;
-    gap: 8px;
-    margin-top: 2px;
-  }
+  .card-links { display: flex; gap: 8px; margin-top: 2px; }
 
   .card-links a {
     flex: 1;
@@ -381,11 +614,7 @@
     transition: all 0.15s ease;
   }
 
-  .card-links a.primary {
-    background: var(--accent);
-    color: #05130d;
-  }
-
+  .card-links a.primary { background: var(--accent); color: #05130d; }
   .card-links a.primary:hover { background: #1fffbd; }
 
   .card-links a.secondary {
@@ -394,10 +623,7 @@
     color: var(--text-dim);
   }
 
-  .card-links a.secondary:hover {
-    border-color: var(--border-hover);
-    color: var(--text);
-  }
+  .card-links a.secondary:hover { border-color: var(--border-hover); color: var(--text); }
 
   .empty {
     grid-column: 1 / -1;
@@ -409,8 +635,8 @@
   }
 
   footer {
-    margin-top: 56px;
-    padding-top: 22px;
+    margin-top: 40px;
+    padding-top: 18px;
     border-top: 1px solid var(--border);
     display: flex;
     justify-content: space-between;
@@ -424,9 +650,19 @@
 
   footer a { color: var(--text-faint); }
   footer a:hover { color: var(--accent); }
+  footer button.linklike {
+    background: none;
+    border: none;
+    color: var(--text-faint);
+    font-family: var(--mono);
+    font-size: 11.5px;
+    cursor: pointer;
+    padding: 0;
+  }
+  footer button.linklike:hover { color: var(--accent); }
 
   @media (max-width: 520px) {
-    .wrap { padding: 32px 16px 60px; }
+    .wrap { padding: 24px 16px 56px; }
     header { flex-direction: column; }
     .clock { text-align: left; }
   }
@@ -449,33 +685,55 @@
     </div>
   </header>
 
-  <section class="hero">
+  <div class="hero-line">
     <h1>Home base for <span>everything shipped.</span></h1>
-    <p>Live apps, working repos, and Vercel projects in one place — the default new-tab page instead of a search box.</p>
     <div class="quicklinks">
-      <a class="qlink" href="https://github.com/bstockwelldev" target="_blank" rel="noopener">
-        <span class="dot"></span> GitHub — bstockwelldev
-      </a>
-      <a class="qlink" href="https://vercel.com/brandon-stockwells-projects" target="_blank" rel="noopener">
-        <span class="dot"></span> Vercel — Stockwise Productions
-      </a>
-      <a class="qlink" href="https://github.com/bstockwelldev/stockwise-productions" target="_blank" rel="noopener">
-        <span class="dot"></span> stockwise-productions
-      </a>
+      <a class="qlink" href="https://github.com/bstockwelldev" target="_blank" rel="noopener">GitHub</a>
+      <a class="qlink" href="https://vercel.com/brandon-stockwells-projects" target="_blank" rel="noopener">Vercel</a>
+      <a class="qlink" href="https://github.com/bstockwelldev/stockwise-productions" target="_blank" rel="noopener">stockwise-productions</a>
     </div>
-  </section>
+  </div>
 
+  <div class="banner" id="banner" hidden>
+    <div class="banner-bar" id="banner-bar" role="button" tabindex="0" aria-expanded="false">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>
+      <div class="banner-text">Make this <b>your homepage</b> so every new tab starts here.</div>
+      <svg class="banner-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      <button class="banner-dismiss" id="banner-dismiss" type="button" aria-label="Dismiss">&times;</button>
+    </div>
+    <div class="banner-panel">
+      <div class="browser-tabs" id="browser-tabs" role="tablist"></div>
+      <ol class="browser-steps" id="browser-steps"></ol>
+      <div class="banner-actions">
+        <button class="banner-btn primary" id="copy-url-btn" type="button">Copy this URL</button>
+        <button class="banner-btn" id="install-btn" type="button" hidden>Install app</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label" id="pinned-label" hidden>Pinned</div>
+  <div class="pinned-row" id="pinned-row"></div>
+
+  <div class="section-label">Tools</div>
+  <div class="tools-group">
+    <div class="tools-grid" id="tools-apps"></div>
+  </div>
+  <div class="tools-group" style="margin-top:10px">
+    <div class="tools-grid" id="tools-platforms"></div>
+  </div>
+
+  <div class="section-label">Projects</div>
   <div class="controls">
     <div class="search">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <input id="search-input" type="text" placeholder="Search projects…" autocomplete="off" />
+      <input id="search-input" type="text" placeholder="Search everything…" autocomplete="off" />
+      <span class="search-hint">/</span>
     </div>
     <div class="filters" id="filters">
-      <button class="filter-btn active" data-filter="all">All</button>
-      <button class="filter-btn" data-filter="ai">AI &amp; Agents</button>
-      <button class="filter-btn" data-filter="tabletop">Tabletop</button>
-      <button class="filter-btn" data-filter="tools">Tools</button>
-      <button class="filter-btn" data-filter="live">Live only</button>
+      <button class="filter-btn" data-filter="all" aria-pressed="true">All</button>
+      <button class="filter-btn" data-filter="ai" aria-pressed="false">AI &amp; Agents</button>
+      <button class="filter-btn" data-filter="tabletop" aria-pressed="false">Tabletop</button>
+      <button class="filter-btn" data-filter="utility" aria-pressed="false">Utility</button>
     </div>
     <div class="count" id="count-label"></div>
   </div>
@@ -484,7 +742,10 @@
 
   <footer>
     <div>stockwise-hub · deployed on Vercel</div>
-    <div id="footer-updated">last synced —</div>
+    <div style="display:flex; gap:14px; align-items:center;">
+      <button class="linklike" id="footer-homepage-link" type="button">homepage setup</button>
+      <span id="footer-updated">last synced —</span>
+    </div>
   </footer>
 
 </div>
@@ -497,153 +758,268 @@
     Python: "#4fd1c5",
   };
 
-  const PROJECTS = [
+  // type: "app" (flagship, shown in Tools+grid, green accent)
+  //       "tool" (platform dashboard, Tools only, blue accent)
+  //       "project" (grid only)
+  const ITEMS = [
     {
+      id: "tabletop-studio", type: "app",
       name: "Tabletop Studio",
       desc: "AI-assisted platform for designing, ideating, and playtesting tabletop games end to end.",
       url: "https://tabletop-studio.vercel.app",
       repo: "https://github.com/bstockwelldev/tabletop-studio",
-      lang: "TypeScript",
-      tags: ["ai", "tabletop"],
-      live: true,
+      domain: "tabletop-studio.vercel.app",
+      lang: "TypeScript", tags: ["ai", "tabletop"], live: true,
     },
     {
+      id: "scrybe", type: "app",
       name: "Scrybe",
       desc: "Writer AI copilot workspace for building narratives — outlining, drafting, and revision in one flow.",
       url: "https://scrybe-web-app.vercel.app",
       repo: "https://github.com/bstockwelldev/scrybe-web-app",
-      lang: "TypeScript",
-      tags: ["ai", "tools"],
-      live: true,
+      domain: "scrybe-web-app.vercel.app",
+      lang: "TypeScript", tags: ["ai", "utility"], live: true,
     },
     {
+      id: "ai-lab", type: "app",
       name: "AI Lab",
       desc: "Local-first AI research lab — eval harness, experiment store, and results dashboard.",
       url: "https://ai-lab-rouge.vercel.app",
       repo: "https://github.com/bstockwelldev/ai-lab",
-      lang: "TypeScript",
-      tags: ["ai", "tools"],
-      live: true,
+      domain: "ai-lab-rouge.vercel.app",
+      lang: "TypeScript", tags: ["ai", "utility"], live: true,
     },
     {
+      id: "github", type: "tool", name: "GitHub", label: "Repositories",
+      url: "https://github.com/bstockwelldev", domain: "github.com",
+    },
+    {
+      id: "vercel", type: "tool", name: "Vercel", label: "Deployments",
+      url: "https://vercel.com/brandon-stockwells-projects", domain: "vercel.com",
+    },
+    {
+      id: "supabase", type: "tool", name: "Supabase", label: "Database & auth",
+      url: "https://supabase.com/dashboard", domain: "supabase.com",
+    },
+    {
+      id: "stripe", type: "tool", name: "Stripe", label: "Billing",
+      url: "https://dashboard.stripe.com", domain: "stripe.com",
+    },
+    {
+      id: "linear", type: "tool", name: "Linear", label: "Issue tracking",
+      url: "https://linear.app", domain: "linear.app",
+    },
+    {
+      id: "sentry", type: "tool", name: "Sentry", label: "Error tracking",
+      url: "https://sentry.io", domain: "sentry.io",
+    },
+    {
+      id: "posthog", type: "tool", name: "PostHog", label: "Analytics",
+      url: "https://app.posthog.com", domain: "posthog.com",
+    },
+    {
+      id: "atomicflow-portfolio", type: "project",
       name: "AtomicFlow Portfolio",
       desc: "Monorepo housing 12 GenAI micro-apps on a shared platform with track-specific engines.",
       url: "https://atomicflow-portfolio.vercel.app",
       repo: "https://github.com/bstockwelldev/atomicflow-portfolio",
-      lang: "TypeScript",
-      tags: ["ai"],
-      live: true,
+      domain: "atomicflow-portfolio.vercel.app",
+      lang: "TypeScript", tags: ["ai"], live: true,
     },
     {
+      id: "metatrack", type: "project",
       name: "MetaTrack",
       desc: "SaaS app for tracking and managing project metadata across a portfolio of products.",
       url: "https://metatrack-saas-app.vercel.app",
       repo: "https://github.com/bstockwelldev/metatrack-saas-app",
-      lang: "TypeScript",
-      tags: ["tools"],
-      live: true,
+      domain: "metatrack-saas-app.vercel.app",
+      lang: "TypeScript", tags: ["utility"], live: true,
     },
     {
+      id: "draft-league-platform", type: "project",
       name: "Draft League Platform",
       desc: "Platform for running fantasy-style draft leagues — rosters, picks, and standings.",
       url: "https://draft-league-platform.vercel.app",
       repo: "https://github.com/bstockwelldev/draft-league-platform",
-      lang: "HTML",
-      tags: ["tools"],
-      live: true,
+      domain: "draft-league-platform.vercel.app",
+      lang: "HTML", tags: ["utility"], live: true,
     },
     {
+      id: "agent-flow-automator", type: "project",
       name: "Agent Flow Automator",
       desc: "Automates multi-step agentic flows — chaining prompts, tools, and triggers into pipelines.",
       url: "https://agent-flow-automator.vercel.app",
       repo: "https://github.com/bstockwelldev/agent-flow-automator",
-      lang: "TypeScript",
-      tags: ["ai"],
-      live: true,
+      domain: "agent-flow-automator.vercel.app",
+      lang: "TypeScript", tags: ["ai"], live: true,
     },
     {
+      id: "business-branding-manager", type: "project",
       name: "Business Branding Manager",
       desc: "Manages branding assets — logos, palettes, voice — for a new IP or business line.",
       url: "https://business-branding-manager-web.vercel.app",
       repo: "https://github.com/bstockwelldev/business-branding-manager-web",
-      lang: "TypeScript",
-      tags: ["tools"],
-      live: true,
+      domain: "business-branding-manager-web.vercel.app",
+      lang: "TypeScript", tags: ["utility"], live: true,
     },
     {
+      id: "agentic-writing-content-gen", type: "project",
       name: "Agentic Writing Content Gen",
       desc: "Agentic content generator for long-form writing workflows, from brief to draft.",
       url: "https://agentic-writing-content-gen-web.vercel.app",
       repo: "https://github.com/bstockwelldev/agentic-writing-content-gen-web",
-      lang: "TypeScript",
-      tags: ["ai"],
-      live: true,
+      domain: "agentic-writing-content-gen-web.vercel.app",
+      lang: "TypeScript", tags: ["ai"], live: true,
     },
     {
+      id: "board-game-sim-ai", type: "project",
       name: "Board Game Sim AI",
       desc: "AI-driven simulator for running board game matchups and balance testing.",
       url: "https://board-game-sim-ai.vercel.app",
       repo: "https://github.com/bstockwelldev/board-game-sim-ai",
-      lang: "TypeScript",
-      tags: ["ai", "tabletop"],
-      live: true,
+      domain: "board-game-sim-ai.vercel.app",
+      lang: "TypeScript", tags: ["ai", "tabletop"], live: true,
     },
     {
+      id: "prompt-refinery", type: "project",
       name: "Prompt Refinery",
       desc: "Workspace for iterating on and refining prompts, built as a v0 prototype.",
       url: "https://v0-prompt-refinery-theta.vercel.app",
       repo: "https://github.com/bstockwelldev/v0-prompt-refinery",
-      lang: "TypeScript",
-      tags: ["ai", "tools"],
-      live: true,
+      domain: "v0-prompt-refinery-theta.vercel.app",
+      lang: "TypeScript", tags: ["ai", "utility"], live: true,
     },
     {
+      id: "task-queue-board-manager", type: "project",
       name: "Task Queue Board Manager",
       desc: "Kanban-style board for managing task queues, built as a v0 prototype.",
       url: "https://v0-task-queue-board-manager.vercel.app",
       repo: "https://github.com/bstockwelldev/v0-task-queue-board-manager",
-      lang: "TypeScript",
-      tags: ["tools"],
-      live: true,
+      domain: "v0-task-queue-board-manager.vercel.app",
+      lang: "TypeScript", tags: ["utility"], live: true,
     },
     {
+      id: "micro-ui-agent-builder", type: "project",
       name: "Micro UI Agent Builder",
       desc: "pnpm monorepo: Next.js studio + AI SDK v6 + shared package for micro-UI agent flows.",
       url: "https://micro-ui-agent-builder.vercel.app",
       repo: "https://github.com/bstockwelldev/micro-ui-agent-builder",
-      lang: "TypeScript",
-      tags: ["ai", "tools"],
-      live: true,
+      domain: "micro-ui-agent-builder.vercel.app",
+      lang: "TypeScript", tags: ["ai", "utility"], live: true,
     },
     {
+      id: "pokedm", type: "project",
       name: "PokeDM",
       desc: "Multi-agent Pokémon TTRPG system running on Vercel AI SDK v6 with Gemini.",
       url: "https://agentic-app-eta.vercel.app",
       repo: "https://github.com/bstockwelldev/pokedm-agentic-app",
-      lang: "JavaScript",
-      tags: ["ai", "tabletop"],
-      live: true,
+      domain: "agentic-app-eta.vercel.app",
+      lang: "JavaScript", tags: ["ai", "tabletop"], live: true,
     },
     {
+      id: "synapse-ai-agent-workflow", type: "project",
       name: "Synapse AI Agent Workflow",
       desc: "Orchestration layer for chaining AI agents into repeatable workflows.",
       url: "https://v0-ai-agent-workflow-gamma.vercel.app",
       repo: "https://github.com/bstockwelldev/synapse-ai-agent-workflow",
-      lang: "TypeScript",
-      tags: ["ai"],
-      live: true,
+      domain: "v0-ai-agent-workflow-gamma.vercel.app",
+      lang: "TypeScript", tags: ["ai"], live: true,
     },
     {
+      id: "tabletop-playtest-simulator", type: "project",
       name: "Tabletop Playtest Simulator",
       desc: "Simulates playtest sessions for tabletop prototypes to speed up balance iteration.",
       url: "https://v0-board-game-simulator.vercel.app",
       repo: "https://github.com/bstockwelldev/tabletop-playtest-simulator",
-      lang: "TypeScript",
-      tags: ["tabletop"],
-      live: true,
+      domain: "v0-board-game-simulator.vercel.app",
+      lang: "TypeScript", tags: ["tabletop"], live: true,
     },
   ];
 
+  const byId = new Map(ITEMS.map((i) => [i.id, i]));
+
+  // ---------- pin store (localStorage, orphan-pruning, private-mode safe) ----------
+  const PIN_KEY = "stockwise-hub:pins:v1";
+  const pinStore = {
+    get() {
+      try {
+        const raw = JSON.parse(localStorage.getItem(PIN_KEY) || "[]");
+        if (!Array.isArray(raw)) return [];
+        const pruned = raw.filter((id) => byId.has(id));
+        if (pruned.length !== raw.length) this._save(pruned);
+        return pruned;
+      } catch {
+        return [];
+      }
+    },
+    has(id) { return this.get().includes(id); },
+    toggle(id) {
+      const cur = this.get();
+      const next = cur.includes(id) ? cur.filter((x) => x !== id) : [...cur, id];
+      this._save(next);
+      return next;
+    },
+    _save(arr) {
+      try { localStorage.setItem(PIN_KEY, JSON.stringify(arr)); } catch { /* private mode: no-op */ }
+    },
+  };
+
+  // ---------- favicon helper ----------
+  function faviconHtml(item, accentVar) {
+    const letter = item.name.charAt(0).toUpperCase();
+    return `
+      <span class="fav-wrap">
+        <img class="fav-img" src="https://www.google.com/s2/favicons?domain=${item.domain}&sz=64" alt="" loading="lazy"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+        <span class="fav-fallback" style="display:none; color:var(${accentVar || "--accent"})">${letter}</span>
+      </span>`;
+  }
+
+  function starButtonHtml(id, pinned) {
+    return `
+      <button class="star-btn" data-star="${id}" aria-pressed="${pinned}" aria-label="${pinned ? "Unpin" : "Pin"} ${byId.get(id).name}" type="button">
+        <svg viewBox="0 0 24 24" fill="${pinned ? "currentColor" : "none"}" stroke="currentColor" stroke-width="2">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+        </svg>
+      </button>`;
+  }
+
+  function toolCardHtml(item, { compact = false, matched = false } = {}) {
+    const accentVar = item.type === "tool" ? "--accent-2" : "--accent";
+    const pinned = pinStore.has(item.id);
+    return `
+      <div class="tool-card${matched ? " match" : ""}" style="--tool-accent: var(${accentVar})">
+        ${faviconHtml(item, accentVar)}
+        <a class="tool-name" href="${item.url}" target="_blank" rel="noopener" title="${item.name}">${item.name}</a>
+        ${starButtonHtml(item.id, pinned)}
+      </div>`;
+  }
+
+  // ---------- render: pinned ----------
+  function renderPinned() {
+    const pins = pinStore.get();
+    const row = document.getElementById("pinned-row");
+    const label = document.getElementById("pinned-label");
+    if (pins.length === 0) {
+      row.innerHTML = "";
+      label.hidden = true;
+      return;
+    }
+    label.hidden = false;
+    row.innerHTML = pins.map((id) => toolCardHtml(byId.get(id), { compact: true })).join("");
+  }
+
+  // ---------- render: tools ----------
+  function renderTools(matchedIds) {
+    const apps = ITEMS.filter((i) => i.type === "app");
+    const platforms = ITEMS.filter((i) => i.type === "tool");
+    document.getElementById("tools-apps").innerHTML =
+      apps.map((i) => toolCardHtml(i, { matched: matchedIds && matchedIds.has(i.id) })).join("");
+    document.getElementById("tools-platforms").innerHTML =
+      platforms.map((i) => toolCardHtml(i, { matched: matchedIds && matchedIds.has(i.id) })).join("");
+  }
+
+  // ---------- render: projects grid ----------
   const grid = document.getElementById("grid");
   const countLabel = document.getElementById("count-label");
   const searchInput = document.getElementById("search-input");
@@ -652,87 +1028,233 @@
   let activeFilter = "all";
   let query = "";
 
-  function matches(project) {
+  function textMatch(item, q) {
+    if (!q) return true;
+    const hay = [item.name, item.desc || "", item.label || "", ...(item.tags || [])].join(" ").toLowerCase();
+    return hay.includes(q);
+  }
+
+  function matchedIdSet(q) {
+    if (!q) return null;
+    return new Set(ITEMS.filter((i) => textMatch(i, q)).map((i) => i.id));
+  }
+
+  function gridItems() {
     const q = query.trim().toLowerCase();
-    const matchesQuery =
-      !q ||
-      project.name.toLowerCase().includes(q) ||
-      project.desc.toLowerCase().includes(q);
-
-    const matchesFilter =
-      activeFilter === "all" ||
-      (activeFilter === "live" && project.live) ||
-      project.tags.includes(activeFilter);
-
-    return matchesQuery && matchesFilter;
+    return ITEMS.filter((i) => i.type === "app" || i.type === "project").filter((p) => {
+      const matchesQuery = textMatch(p, q);
+      const matchesFilter = activeFilter === "all" || (p.tags || []).includes(activeFilter);
+      return matchesQuery && matchesFilter;
+    });
   }
 
-  function render() {
-    const visible = PROJECTS.filter(matches);
-    grid.innerHTML = "";
-
-    if (visible.length === 0) {
-      grid.innerHTML = '<div class="empty">No projects match that search.</div>';
-    } else {
-      for (const p of visible) {
-        const card = document.createElement("div");
-        card.className = "card";
-        const dotColor = LANG_COLORS[p.lang] || "#5c5f6b";
-        card.innerHTML = `
-          <div class="card-top">
+  function projectCardHtml(p) {
+    const dotColor = LANG_COLORS[p.lang] || "#5c5f6b";
+    const pinned = pinStore.has(p.id);
+    return `
+      <div class="card" data-project="${p.id}">
+        <div class="card-top">
+          <div class="card-name-row">
+            ${faviconHtml(p, "--accent")}
             <div class="card-name">${p.name}</div>
+          </div>
+          <div class="card-top-right">
             ${p.live ? '<span class="badge live">Live</span>' : ""}
+            ${starButtonHtml(p.id, pinned)}
           </div>
-          <div class="card-desc">${p.desc}</div>
-          <div class="card-meta">
-            <span class="lang-dot" style="background:${dotColor}"></span>
-            <span>${p.lang}</span>
-          </div>
-          <div class="card-links">
-            <a class="primary" href="${p.url}" target="_blank" rel="noopener">Visit</a>
-            <a class="secondary" href="${p.repo}" target="_blank" rel="noopener">Code</a>
-          </div>
-        `;
-        grid.appendChild(card);
-      }
-    }
-
-    countLabel.textContent = `${visible.length} of ${PROJECTS.length}`;
+        </div>
+        <div class="card-desc">${p.desc}</div>
+        <div class="card-meta">
+          <span class="lang-dot" style="background:${dotColor}"></span>
+          <span>${p.lang}</span>
+        </div>
+        <div class="card-links">
+          <a class="primary" href="${p.url}" target="_blank" rel="noopener">Visit</a>
+          <a class="secondary" href="${p.repo}" target="_blank" rel="noopener">Code</a>
+        </div>
+      </div>`;
   }
 
+  function renderGrid() {
+    const visible = gridItems();
+    grid.innerHTML = visible.length === 0
+      ? '<div class="empty">No projects match that search.</div>'
+      : visible.map(projectCardHtml).join("");
+    const total = ITEMS.filter((i) => i.type === "app" || i.type === "project").length;
+    countLabel.textContent = `${visible.length} of ${total}`;
+  }
+
+  function renderAll() {
+    const q = query.trim().toLowerCase();
+    renderPinned();
+    renderTools(matchedIdSet(q));
+    renderGrid();
+  }
+
+  // ---------- star toggle (event delegation, works across all sections) ----------
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest(".star-btn");
+    if (!btn) return;
+    pinStore.toggle(btn.dataset.star);
+    renderAll();
+  });
+
+  // ---------- search + filters ----------
   searchInput.addEventListener("input", (e) => {
     query = e.target.value;
-    render();
+    renderAll();
   });
 
   filterButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
-      filterButtons.forEach((b) => b.classList.remove("active"));
-      btn.classList.add("active");
+      filterButtons.forEach((b) => b.setAttribute("aria-pressed", "false"));
+      btn.setAttribute("aria-pressed", "true");
       activeFilter = btn.dataset.filter;
-      render();
+      renderGrid();
     });
   });
 
+  // ---------- keyboard shortcuts ----------
+  document.addEventListener("keydown", (e) => {
+    const isTypingElsewhere = document.activeElement && document.activeElement !== searchInput &&
+      ["INPUT", "TEXTAREA"].includes(document.activeElement.tagName);
+    if (isTypingElsewhere) return;
+
+    if (e.key === "/" || (e.key.toLowerCase() === "k" && (e.ctrlKey || e.metaKey))) {
+      e.preventDefault();
+      searchInput.focus();
+      searchInput.select();
+    } else if (e.key === "Escape" && document.activeElement === searchInput) {
+      searchInput.value = "";
+      query = "";
+      renderAll();
+      searchInput.blur();
+    } else if (e.key === "Enter" && document.activeElement === searchInput) {
+      const first = gridItems()[0];
+      if (first) window.open(first.url, "_blank", "noopener");
+    }
+  });
+
+  // ---------- clock ----------
   function updateClock() {
     const now = new Date();
-    document.getElementById("clock-time").textContent = now.toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-    document.getElementById("clock-date").textContent = now.toLocaleDateString([], {
-      weekday: "short",
-      month: "short",
-      day: "numeric",
-    });
+    document.getElementById("clock-time").textContent = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    document.getElementById("clock-date").textContent = now.toLocaleDateString([], { weekday: "short", month: "short", day: "numeric" });
   }
-
   document.getElementById("footer-updated").textContent =
     "last synced " + new Date().toLocaleDateString([], { year: "numeric", month: "short", day: "numeric" });
-
   updateClock();
   setInterval(updateClock, 1000 * 30);
-  render();
+
+  // ---------- homepage banner ----------
+  const BANNER_KEY = "stockwise-hub:banner-dismissed:v1";
+  const banner = document.getElementById("banner");
+  const bannerBar = document.getElementById("banner-bar");
+  const browserTabsEl = document.getElementById("browser-tabs");
+  const browserStepsEl = document.getElementById("browser-steps");
+
+  const BROWSER_STEPS = {
+    chrome: ["Open <strong>Settings</strong> (⋮ menu top-right)", "Go to <strong>On startup</strong>", "Choose <strong>Open a specific page</strong> and add this URL"],
+    edge: ["Open <strong>Settings</strong> (⋯ menu top-right)", "Go to <strong>Start, home, and new tabs</strong>", "Under Home button, add this page as your homepage"],
+    firefox: ["Open <strong>Settings</strong>", "Go to the <strong>Home</strong> panel", "Set <strong>Homepage and new windows</strong> to Custom URLs and paste this address"],
+    other: ["Open your browser's <strong>Settings</strong>", "Find the <strong>Startup</strong> or <strong>Home page</strong> section", "Set it to a custom URL and paste this address"],
+  };
+
+  function detectBrowser() {
+    const brands = navigator.userAgentData && navigator.userAgentData.brands;
+    if (brands) {
+      const names = brands.map((b) => b.brand.toLowerCase());
+      if (names.some((n) => n.includes("edge"))) return "edge";
+      if (names.some((n) => n.includes("chrom"))) return "chrome";
+    }
+    const ua = navigator.userAgent.toLowerCase();
+    if (ua.includes("edg/")) return "edge";
+    if (ua.includes("firefox")) return "firefox";
+    if (ua.includes("chrome")) return "chrome";
+    return "other";
+  }
+
+  function renderBrowserTabs(active) {
+    const order = ["chrome", "edge", "firefox", "other"];
+    const labels = { chrome: "Chrome", edge: "Edge", firefox: "Firefox", other: "Other" };
+    browserTabsEl.innerHTML = order.map((key) =>
+      `<button class="browser-tab${key === active ? " active" : ""}" data-browser="${key}" role="tab" aria-selected="${key === active}">${labels[key]}</button>`
+    ).join("");
+    renderSteps(active);
+  }
+
+  function renderSteps(key) {
+    browserStepsEl.innerHTML = BROWSER_STEPS[key].map((s) => `<li>${s}</li>`).join("");
+  }
+
+  browserTabsEl.addEventListener("click", (e) => {
+    const btn = e.target.closest(".browser-tab");
+    if (!btn) return;
+    browserTabsEl.querySelectorAll(".browser-tab").forEach((b) => b.classList.remove("active"));
+    btn.classList.add("active");
+    renderSteps(btn.dataset.browser);
+  });
+
+  bannerBar.addEventListener("click", (e) => {
+    if (e.target.closest("#banner-dismiss")) return;
+    const expanded = banner.classList.toggle("expanded");
+    bannerBar.setAttribute("aria-expanded", String(expanded));
+  });
+  bannerBar.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); bannerBar.click(); }
+  });
+
+  document.getElementById("banner-dismiss").addEventListener("click", () => {
+    banner.hidden = true;
+    try { localStorage.setItem(BANNER_KEY, "1"); } catch { /* no-op */ }
+  });
+
+  document.getElementById("footer-homepage-link").addEventListener("click", () => {
+    try { localStorage.removeItem(BANNER_KEY); } catch { /* no-op */ }
+    banner.hidden = false;
+    banner.classList.add("expanded");
+    bannerBar.setAttribute("aria-expanded", "true");
+    banner.scrollIntoView({ behavior: "smooth", block: "center" });
+  });
+
+  document.getElementById("copy-url-btn").addEventListener("click", async (e) => {
+    try {
+      await navigator.clipboard.writeText(location.href);
+      const btn = e.currentTarget;
+      const original = btn.textContent;
+      btn.textContent = "Copied!";
+      setTimeout(() => { btn.textContent = original; }, 1500);
+    } catch { /* clipboard unavailable: no-op */ }
+  });
+
+  (function initBanner() {
+    let dismissed = false;
+    try { dismissed = localStorage.getItem(BANNER_KEY) === "1"; } catch { /* no-op */ }
+    banner.hidden = dismissed;
+    renderBrowserTabs(detectBrowser());
+  })();
+
+  // ---------- PWA install ----------
+  let deferredInstallPrompt = null;
+  const installBtn = document.getElementById("install-btn");
+
+  window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    deferredInstallPrompt = e;
+    installBtn.hidden = false;
+  });
+
+  installBtn.addEventListener("click", async () => {
+    if (!deferredInstallPrompt) return;
+    deferredInstallPrompt.prompt();
+    await deferredInstallPrompt.userChoice;
+    deferredInstallPrompt = null;
+    installBtn.hidden = true;
+  });
+
+  window.addEventListener("appinstalled", () => { installBtn.hidden = true; });
+
+  renderAll();
 </script>
 </body>
 </html>
