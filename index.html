@@ -331,6 +331,8 @@
     gap: 10px;
   }
 
+  .tools-grid:empty { display: none; }
+
   .tool-card {
     display: flex;
     align-items: center;
@@ -1021,9 +1023,11 @@
   }
 
   // ---------- render: tools ----------
+  // Pinned items already surface in the Pinned row, so hide them here to
+  // avoid showing the same icon twice in a row.
   function renderTools(matchedIds) {
-    const apps = ITEMS.filter((i) => i.type === "app");
-    const platforms = ITEMS.filter((i) => i.type === "tool");
+    const apps = ITEMS.filter((i) => i.type === "app" && !pinStore.has(i.id));
+    const platforms = ITEMS.filter((i) => i.type === "tool" && !pinStore.has(i.id));
     document.getElementById("tools-apps").innerHTML =
       apps.map((i) => toolCardHtml(i, { matched: matchedIds && matchedIds.has(i.id) })).join("");
     document.getElementById("tools-platforms").innerHTML =
