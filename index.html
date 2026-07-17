@@ -1,0 +1,738 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Stockwise Productions — Home</title>
+<meta name="description" content="Personal hub for Stockwise Productions / bstockwelldev — live apps, repos, and Vercel projects." />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%2318181f%22/><text x=%2250%22 y=%2266%22 font-size=%2258%22 text-anchor=%22middle%22 fill=%22%2300e5a0%22 font-family=%22monospace%22>S</text></svg>" />
+<style>
+  :root {
+    --bg: #08090c;
+    --bg-elevated: #101218;
+    --bg-card: #14161d;
+    --bg-card-hover: #191c24;
+    --border: #23262f;
+    --border-hover: #33384a;
+    --text: #e8e9ed;
+    --text-dim: #9497a3;
+    --text-faint: #5c5f6b;
+    --accent: #00e5a0;
+    --accent-dim: #00b380;
+    --accent-glow: rgba(0, 229, 160, 0.14);
+    --accent-2: #6ea8ff;
+    --mono: "SF Mono", "Cascadia Code", Consolas, "Liberation Mono", Menlo, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    min-height: 100vh;
+    background-image:
+      radial-gradient(circle at 15% 0%, rgba(0, 229, 160, 0.06), transparent 40%),
+      radial-gradient(circle at 85% 20%, rgba(110, 168, 255, 0.05), transparent 40%),
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: auto, auto, 42px 42px, 42px 42px;
+    background-position: 0 0, 0 0, -1px -1px, -1px -1px;
+    background-color: var(--bg);
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse at top, transparent 0%, var(--bg) 78%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 56px 24px 80px;
+  }
+
+  /* ---------- Header ---------- */
+  header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .brand-mark {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--accent);
+    box-shadow: 0 0 0 1px transparent, 0 0 24px var(--accent-glow);
+    flex-shrink: 0;
+  }
+
+  .brand-text .title {
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .brand-text .subtitle {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--text-faint);
+    margin-top: 2px;
+  }
+
+  .clock {
+    text-align: right;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--text-dim);
+  }
+
+  .clock .time {
+    font-size: 20px;
+    color: var(--text);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  .clock .date {
+    margin-top: 2px;
+    color: var(--text-faint);
+  }
+
+  /* ---------- Hero / quick links ---------- */
+  .hero {
+    margin-bottom: 36px;
+  }
+
+  .hero h1 {
+    font-size: clamp(28px, 4vw, 40px);
+    line-height: 1.15;
+    margin: 0 0 10px;
+    letter-spacing: -0.02em;
+    font-weight: 700;
+  }
+
+  .hero h1 span {
+    color: var(--accent);
+  }
+
+  .hero p {
+    color: var(--text-dim);
+    font-size: 15px;
+    max-width: 640px;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .quicklinks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 22px;
+  }
+
+  .qlink {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 14px;
+    border-radius: 9px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    transition: border-color 0.15s ease, transform 0.15s ease, background 0.15s ease;
+  }
+
+  .qlink:hover {
+    border-color: var(--border-hover);
+    background: var(--bg-card-hover);
+    transform: translateY(-1px);
+  }
+
+  .qlink .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+    flex-shrink: 0;
+  }
+
+  /* ---------- Controls ---------- */
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 22px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .search {
+    position: relative;
+    flex: 1 1 220px;
+    min-width: 200px;
+  }
+
+  .search input {
+    width: 100%;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 13.5px;
+    padding: 10px 12px 10px 34px;
+    border-radius: 9px;
+    outline: none;
+    transition: border-color 0.15s ease;
+  }
+
+  .search input::placeholder { color: var(--text-faint); }
+  .search input:focus { border-color: var(--accent-dim); }
+
+  .search svg {
+    position: absolute;
+    left: 11px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-faint);
+    pointer-events: none;
+  }
+
+  .filters {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    font-family: var(--sans);
+    font-size: 12.5px;
+    font-weight: 500;
+    padding: 8px 13px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+
+  .filter-btn:hover {
+    color: var(--text);
+    border-color: var(--border-hover);
+  }
+
+  .filter-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #05130d;
+  }
+
+  .count {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-faint);
+    white-space: nowrap;
+  }
+
+  /* ---------- Grid ---------- */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 14px;
+  }
+
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: border-color 0.15s ease, transform 0.15s ease, background 0.15s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--accent-glow), transparent 55%);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+  }
+
+  .card:hover {
+    border-color: var(--border-hover);
+    background: var(--bg-card-hover);
+    transform: translateY(-2px);
+  }
+
+  .card:hover::before { opacity: 1; }
+
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .card-name {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .badge {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    padding: 3px 7px;
+    border-radius: 5px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    text-transform: uppercase;
+  }
+
+  .badge.live {
+    background: rgba(0, 229, 160, 0.12);
+    color: var(--accent);
+    border: 1px solid rgba(0, 229, 160, 0.25);
+  }
+
+  .card-desc {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--text-dim);
+    flex: 1;
+  }
+
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-faint);
+  }
+
+  .lang-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .card-links {
+    display: flex;
+    gap: 8px;
+    margin-top: 2px;
+  }
+
+  .card-links a {
+    flex: 1;
+    text-align: center;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 8px 0;
+    border-radius: 7px;
+    transition: all 0.15s ease;
+  }
+
+  .card-links a.primary {
+    background: var(--accent);
+    color: #05130d;
+  }
+
+  .card-links a.primary:hover { background: #1fffbd; }
+
+  .card-links a.secondary {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+  }
+
+  .card-links a.secondary:hover {
+    border-color: var(--border-hover);
+    color: var(--text);
+  }
+
+  .empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-faint);
+    font-family: var(--mono);
+    font-size: 13px;
+  }
+
+  footer {
+    margin-top: 56px;
+    padding-top: 22px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--text-faint);
+  }
+
+  footer a { color: var(--text-faint); }
+  footer a:hover { color: var(--accent); }
+
+  @media (max-width: 520px) {
+    .wrap { padding: 32px 16px 60px; }
+    header { flex-direction: column; }
+    .clock { text-align: left; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="brand">
+      <div class="brand-mark">S</div>
+      <div class="brand-text">
+        <div class="title">Stockwise Productions</div>
+        <div class="subtitle">github.com/bstockwelldev</div>
+      </div>
+    </div>
+    <div class="clock">
+      <div class="time" id="clock-time">--:--</div>
+      <div class="date" id="clock-date">-- -- ----</div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <h1>Home base for <span>everything shipped.</span></h1>
+    <p>Live apps, working repos, and Vercel projects in one place — the default new-tab page instead of a search box.</p>
+    <div class="quicklinks">
+      <a class="qlink" href="https://github.com/bstockwelldev" target="_blank" rel="noopener">
+        <span class="dot"></span> GitHub — bstockwelldev
+      </a>
+      <a class="qlink" href="https://vercel.com/brandon-stockwells-projects" target="_blank" rel="noopener">
+        <span class="dot"></span> Vercel — Stockwise Productions
+      </a>
+      <a class="qlink" href="https://github.com/bstockwelldev/stockwise-productions" target="_blank" rel="noopener">
+        <span class="dot"></span> stockwise-productions
+      </a>
+    </div>
+  </section>
+
+  <div class="controls">
+    <div class="search">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="search-input" type="text" placeholder="Search projects…" autocomplete="off" />
+    </div>
+    <div class="filters" id="filters">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="ai">AI &amp; Agents</button>
+      <button class="filter-btn" data-filter="tabletop">Tabletop</button>
+      <button class="filter-btn" data-filter="tools">Tools</button>
+      <button class="filter-btn" data-filter="live">Live only</button>
+    </div>
+    <div class="count" id="count-label"></div>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <footer>
+    <div>stockwise-hub · deployed on Vercel</div>
+    <div id="footer-updated">last synced —</div>
+  </footer>
+
+</div>
+
+<script>
+  const LANG_COLORS = {
+    TypeScript: "#6ea8ff",
+    JavaScript: "#f0d75a",
+    HTML: "#ff8a5c",
+    Python: "#4fd1c5",
+  };
+
+  const PROJECTS = [
+    {
+      name: "Tabletop Studio",
+      desc: "AI-assisted platform for designing, ideating, and playtesting tabletop games end to end.",
+      url: "https://tabletop-studio.vercel.app",
+      repo: "https://github.com/bstockwelldev/tabletop-studio",
+      lang: "TypeScript",
+      tags: ["ai", "tabletop"],
+      live: true,
+    },
+    {
+      name: "Scrybe",
+      desc: "Writer AI copilot workspace for building narratives — outlining, drafting, and revision in one flow.",
+      url: "https://scrybe-web-app.vercel.app",
+      repo: "https://github.com/bstockwelldev/scrybe-web-app",
+      lang: "TypeScript",
+      tags: ["ai", "tools"],
+      live: true,
+    },
+    {
+      name: "AI Lab",
+      desc: "Local-first AI research lab — eval harness, experiment store, and results dashboard.",
+      url: "https://ai-lab-rouge.vercel.app",
+      repo: "https://github.com/bstockwelldev/ai-lab",
+      lang: "TypeScript",
+      tags: ["ai", "tools"],
+      live: true,
+    },
+    {
+      name: "AtomicFlow Portfolio",
+      desc: "Monorepo housing 12 GenAI micro-apps on a shared platform with track-specific engines.",
+      url: "https://atomicflow-portfolio.vercel.app",
+      repo: "https://github.com/bstockwelldev/atomicflow-portfolio",
+      lang: "TypeScript",
+      tags: ["ai"],
+      live: true,
+    },
+    {
+      name: "MetaTrack",
+      desc: "SaaS app for tracking and managing project metadata across a portfolio of products.",
+      url: "https://metatrack-saas-app.vercel.app",
+      repo: "https://github.com/bstockwelldev/metatrack-saas-app",
+      lang: "TypeScript",
+      tags: ["tools"],
+      live: true,
+    },
+    {
+      name: "Draft League Platform",
+      desc: "Platform for running fantasy-style draft leagues — rosters, picks, and standings.",
+      url: "https://draft-league-platform.vercel.app",
+      repo: "https://github.com/bstockwelldev/draft-league-platform",
+      lang: "HTML",
+      tags: ["tools"],
+      live: true,
+    },
+    {
+      name: "Agent Flow Automator",
+      desc: "Automates multi-step agentic flows — chaining prompts, tools, and triggers into pipelines.",
+      url: "https://agent-flow-automator.vercel.app",
+      repo: "https://github.com/bstockwelldev/agent-flow-automator",
+      lang: "TypeScript",
+      tags: ["ai"],
+      live: true,
+    },
+    {
+      name: "Business Branding Manager",
+      desc: "Manages branding assets — logos, palettes, voice — for a new IP or business line.",
+      url: "https://business-branding-manager-web.vercel.app",
+      repo: "https://github.com/bstockwelldev/business-branding-manager-web",
+      lang: "TypeScript",
+      tags: ["tools"],
+      live: true,
+    },
+    {
+      name: "Agentic Writing Content Gen",
+      desc: "Agentic content generator for long-form writing workflows, from brief to draft.",
+      url: "https://agentic-writing-content-gen-web.vercel.app",
+      repo: "https://github.com/bstockwelldev/agentic-writing-content-gen-web",
+      lang: "TypeScript",
+      tags: ["ai"],
+      live: true,
+    },
+    {
+      name: "Board Game Sim AI",
+      desc: "AI-driven simulator for running board game matchups and balance testing.",
+      url: "https://board-game-sim-ai.vercel.app",
+      repo: "https://github.com/bstockwelldev/board-game-sim-ai",
+      lang: "TypeScript",
+      tags: ["ai", "tabletop"],
+      live: true,
+    },
+    {
+      name: "Prompt Refinery",
+      desc: "Workspace for iterating on and refining prompts, built as a v0 prototype.",
+      url: "https://v0-prompt-refinery-theta.vercel.app",
+      repo: "https://github.com/bstockwelldev/v0-prompt-refinery",
+      lang: "TypeScript",
+      tags: ["ai", "tools"],
+      live: true,
+    },
+    {
+      name: "Task Queue Board Manager",
+      desc: "Kanban-style board for managing task queues, built as a v0 prototype.",
+      url: "https://v0-task-queue-board-manager.vercel.app",
+      repo: "https://github.com/bstockwelldev/v0-task-queue-board-manager",
+      lang: "TypeScript",
+      tags: ["tools"],
+      live: true,
+    },
+    {
+      name: "Micro UI Agent Builder",
+      desc: "pnpm monorepo: Next.js studio + AI SDK v6 + shared package for micro-UI agent flows.",
+      url: "https://micro-ui-agent-builder.vercel.app",
+      repo: "https://github.com/bstockwelldev/micro-ui-agent-builder",
+      lang: "TypeScript",
+      tags: ["ai", "tools"],
+      live: true,
+    },
+    {
+      name: "PokeDM",
+      desc: "Multi-agent Pokémon TTRPG system running on Vercel AI SDK v6 with Gemini.",
+      url: "https://agentic-app-eta.vercel.app",
+      repo: "https://github.com/bstockwelldev/pokedm-agentic-app",
+      lang: "JavaScript",
+      tags: ["ai", "tabletop"],
+      live: true,
+    },
+    {
+      name: "Synapse AI Agent Workflow",
+      desc: "Orchestration layer for chaining AI agents into repeatable workflows.",
+      url: "https://v0-ai-agent-workflow-gamma.vercel.app",
+      repo: "https://github.com/bstockwelldev/synapse-ai-agent-workflow",
+      lang: "TypeScript",
+      tags: ["ai"],
+      live: true,
+    },
+    {
+      name: "Tabletop Playtest Simulator",
+      desc: "Simulates playtest sessions for tabletop prototypes to speed up balance iteration.",
+      url: "https://v0-board-game-simulator.vercel.app",
+      repo: "https://github.com/bstockwelldev/tabletop-playtest-simulator",
+      lang: "TypeScript",
+      tags: ["tabletop"],
+      live: true,
+    },
+  ];
+
+  const grid = document.getElementById("grid");
+  const countLabel = document.getElementById("count-label");
+  const searchInput = document.getElementById("search-input");
+  const filterButtons = document.querySelectorAll(".filter-btn");
+
+  let activeFilter = "all";
+  let query = "";
+
+  function matches(project) {
+    const q = query.trim().toLowerCase();
+    const matchesQuery =
+      !q ||
+      project.name.toLowerCase().includes(q) ||
+      project.desc.toLowerCase().includes(q);
+
+    const matchesFilter =
+      activeFilter === "all" ||
+      (activeFilter === "live" && project.live) ||
+      project.tags.includes(activeFilter);
+
+    return matchesQuery && matchesFilter;
+  }
+
+  function render() {
+    const visible = PROJECTS.filter(matches);
+    grid.innerHTML = "";
+
+    if (visible.length === 0) {
+      grid.innerHTML = '<div class="empty">No projects match that search.</div>';
+    } else {
+      for (const p of visible) {
+        const card = document.createElement("div");
+        card.className = "card";
+        const dotColor = LANG_COLORS[p.lang] || "#5c5f6b";
+        card.innerHTML = `
+          <div class="card-top">
+            <div class="card-name">${p.name}</div>
+            ${p.live ? '<span class="badge live">Live</span>' : ""}
+          </div>
+          <div class="card-desc">${p.desc}</div>
+          <div class="card-meta">
+            <span class="lang-dot" style="background:${dotColor}"></span>
+            <span>${p.lang}</span>
+          </div>
+          <div class="card-links">
+            <a class="primary" href="${p.url}" target="_blank" rel="noopener">Visit</a>
+            <a class="secondary" href="${p.repo}" target="_blank" rel="noopener">Code</a>
+          </div>
+        `;
+        grid.appendChild(card);
+      }
+    }
+
+    countLabel.textContent = `${visible.length} of ${PROJECTS.length}`;
+  }
+
+  searchInput.addEventListener("input", (e) => {
+    query = e.target.value;
+    render();
+  });
+
+  filterButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      filterButtons.forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+      activeFilter = btn.dataset.filter;
+      render();
+    });
+  });
+
+  function updateClock() {
+    const now = new Date();
+    document.getElementById("clock-time").textContent = now.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+    document.getElementById("clock-date").textContent = now.toLocaleDateString([], {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+    });
+  }
+
+  document.getElementById("footer-updated").textContent =
+    "last synced " + new Date().toLocaleDateString([], { year: "numeric", month: "short", day: "numeric" });
+
+  updateClock();
+  setInterval(updateClock, 1000 * 30);
+  render();
+</script>
+</body>
+</html>
