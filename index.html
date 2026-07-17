@@ -769,6 +769,7 @@
       url: "https://tabletop-studio.vercel.app",
       repo: "https://github.com/bstockwelldev/tabletop-studio",
       domain: "tabletop-studio.vercel.app",
+      icon: "tabletop-studio.png",
       lang: "TypeScript", tags: ["ai", "tabletop"], live: true,
     },
     {
@@ -778,6 +779,7 @@
       url: "https://scrybe-web-app.vercel.app",
       repo: "https://github.com/bstockwelldev/scrybe-web-app",
       domain: "scrybe-web-app.vercel.app",
+      icon: "scrybe.png",
       lang: "TypeScript", tags: ["ai", "utility"], live: true,
     },
     {
@@ -787,6 +789,7 @@
       url: "https://ai-lab-rouge.vercel.app",
       repo: "https://github.com/bstockwelldev/ai-lab",
       domain: "ai-lab-rouge.vercel.app",
+      icon: "ai-lab.png",
       lang: "TypeScript", tags: ["ai", "utility"], live: true,
     },
     {
@@ -878,6 +881,7 @@
       url: "https://board-game-sim-ai.vercel.app",
       repo: "https://github.com/bstockwelldev/board-game-sim-ai",
       domain: "board-game-sim-ai.vercel.app",
+      icon: "board-game-sim-ai.png",
       lang: "TypeScript", tags: ["ai", "tabletop"], live: true,
     },
     {
@@ -887,6 +891,7 @@
       url: "https://v0-prompt-refinery-theta.vercel.app",
       repo: "https://github.com/bstockwelldev/v0-prompt-refinery",
       domain: "v0-prompt-refinery-theta.vercel.app",
+      icon: "prompt-refinery.png",
       lang: "TypeScript", tags: ["ai", "utility"], live: true,
     },
     {
@@ -896,6 +901,7 @@
       url: "https://v0-task-queue-board-manager.vercel.app",
       repo: "https://github.com/bstockwelldev/v0-task-queue-board-manager",
       domain: "v0-task-queue-board-manager.vercel.app",
+      icon: "task-queue-board-manager.png",
       lang: "TypeScript", tags: ["utility"], live: true,
     },
     {
@@ -905,6 +911,7 @@
       url: "https://micro-ui-agent-builder.vercel.app",
       repo: "https://github.com/bstockwelldev/micro-ui-agent-builder",
       domain: "micro-ui-agent-builder.vercel.app",
+      icon: "micro-ui-agent-builder.png",
       lang: "TypeScript", tags: ["ai", "utility"], live: true,
     },
     {
@@ -965,11 +972,15 @@
   };
 
   // ---------- favicon helper ----------
+  // Google's s2 favicon proxy 404s on our own *.vercel.app project domains
+  // (it only resolves well-indexed public domains) — bundle real icons for
+  // those instead and reserve the proxy for third-party platform domains.
   function faviconHtml(item, accentVar) {
     const letter = item.name.charAt(0).toUpperCase();
+    const src = item.icon ? `icons/${item.icon}` : `https://www.google.com/s2/favicons?domain=${item.domain}&sz=64`;
     return `
       <span class="fav-wrap">
-        <img class="fav-img" src="https://www.google.com/s2/favicons?domain=${item.domain}&sz=64" alt="" loading="lazy"
+        <img class="fav-img" src="${src}" alt="" loading="lazy"
              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
         <span class="fav-fallback" style="display:none; color:var(${accentVar || "--accent"})">${letter}</span>
       </span>`;
