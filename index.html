@@ -312,6 +312,40 @@
 
   .section-label:first-of-type { margin-top: 0; }
 
+  /* ---------- Collapsible section headers (Projects, Packages) ---------- */
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 22px 0 10px;
+  }
+
+  .section-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    transition: color 0.15s ease;
+  }
+
+  .section-toggle:hover { color: var(--text-dim); }
+
+  .section-toggle .chevron { transition: transform 0.15s ease; flex-shrink: 0; }
+
+  .section-toggle[aria-expanded="false"] .chevron { transform: rotate(-90deg); }
+
+  .grid[hidden] { display: none; }
+
   /* ---------- Pinned row ---------- */
   .pinned-row {
     display: flex;
@@ -736,7 +770,6 @@
     <div class="tools-grid" id="tools-platforms"></div>
   </div>
 
-  <div class="section-label">Projects</div>
   <div class="controls">
     <div class="search">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -749,12 +782,24 @@
       <button class="filter-btn" data-filter="tabletop" aria-pressed="false">Tabletop</button>
       <button class="filter-btn" data-filter="utility" aria-pressed="false">Utility</button>
     </div>
-    <div class="count" id="count-label"></div>
   </div>
 
+  <div class="section-header">
+    <button class="section-toggle" id="projects-toggle" type="button" aria-expanded="true" aria-controls="grid">
+      <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      <span>Projects</span>
+    </button>
+    <div class="count" id="count-label"></div>
+  </div>
   <div class="grid" id="grid"></div>
 
-  <div class="section-label">Packages</div>
+  <div class="section-header">
+    <button class="section-toggle" id="packages-toggle" type="button" aria-expanded="true" aria-controls="packages-grid">
+      <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      <span>Packages</span>
+    </button>
+    <div class="count" id="packages-count-label"></div>
+  </div>
   <div class="grid" id="packages-grid"></div>
 
   <footer>
@@ -1118,13 +1163,21 @@
     return new Set(ITEMS.filter((i) => textMatch(i, q)).map((i) => i.id));
   }
 
-  function gridItems() {
+  function filterItems(types) {
     const q = query.trim().toLowerCase();
-    return ITEMS.filter((i) => i.type === "app" || i.type === "project").filter((p) => {
+    return ITEMS.filter((i) => types.includes(i.type)).filter((p) => {
       const matchesQuery = textMatch(p, q);
       const matchesFilter = activeFilter === "all" || (p.tags || []).includes(activeFilter);
       return matchesQuery && matchesFilter;
     });
+  }
+
+  function gridItems() {
+    return filterItems(["app", "project"]);
+  }
+
+  function packageItems() {
+    return filterItems(["package"]);
   }
 
   function projectCardHtml(p) {
@@ -1163,6 +1216,8 @@
     countLabel.textContent = `${visible.length} of ${total}`;
   }
 
+  const packagesCountLabel = document.getElementById("packages-count-label");
+
   // ---------- render: packages grid ----------
   function packageCardHtml(p) {
     const dotColor = LANG_COLORS[p.lang] || "#5c5f6b";
@@ -1193,8 +1248,12 @@
   }
 
   function renderPackages() {
-    const packages = ITEMS.filter((i) => i.type === "package");
-    document.getElementById("packages-grid").innerHTML = packages.map(packageCardHtml).join("");
+    const visible = packageItems();
+    document.getElementById("packages-grid").innerHTML = visible.length === 0
+      ? '<div class="empty">No packages match that search.</div>'
+      : visible.map(packageCardHtml).join("");
+    const total = ITEMS.filter((i) => i.type === "package").length;
+    packagesCountLabel.textContent = `${visible.length} of ${total}`;
   }
 
   function renderAll() {
@@ -1225,8 +1284,40 @@
       btn.setAttribute("aria-pressed", "true");
       activeFilter = btn.dataset.filter;
       renderGrid();
+      renderPackages();
     });
   });
+
+  // ---------- collapsible sections (Projects, Packages) ----------
+  const COLLAPSE_KEY = "stockwise-hub:collapsed-sections:v1";
+  function getCollapsedSections() {
+    try {
+      const raw = JSON.parse(localStorage.getItem(COLLAPSE_KEY) || "[]");
+      return Array.isArray(raw) ? raw : [];
+    } catch {
+      return [];
+    }
+  }
+  function setSectionCollapsed(section, collapsed) {
+    const cur = getCollapsedSections();
+    const next = collapsed ? [...new Set([...cur, section])] : cur.filter((s) => s !== section);
+    try { localStorage.setItem(COLLAPSE_KEY, JSON.stringify(next)); } catch { /* private mode: no-op */ }
+  }
+  function initSectionToggle(toggleId, gridId, section) {
+    const toggle = document.getElementById(toggleId);
+    const sectionGrid = document.getElementById(gridId);
+    const collapsed = getCollapsedSections().includes(section);
+    toggle.setAttribute("aria-expanded", String(!collapsed));
+    sectionGrid.hidden = collapsed;
+    toggle.addEventListener("click", () => {
+      const willCollapse = toggle.getAttribute("aria-expanded") === "true";
+      toggle.setAttribute("aria-expanded", String(!willCollapse));
+      sectionGrid.hidden = willCollapse;
+      setSectionCollapsed(section, willCollapse);
+    });
+  }
+  initSectionToggle("projects-toggle", "grid", "projects");
+  initSectionToggle("packages-toggle", "packages-grid", "packages");
 
   // ---------- keyboard shortcuts ----------
   document.addEventListener("keydown", (e) => {
