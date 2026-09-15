@@ -590,6 +590,18 @@
     border: 1px solid rgba(0, 229, 160, 0.25);
   }
 
+  .badge.pkg {
+    background: var(--accent-2-glow);
+    color: var(--accent-2);
+    border: 1px solid rgba(110, 168, 255, 0.25);
+  }
+
+  .badge.muted {
+    background: transparent;
+    color: var(--text-faint);
+    border: 1px solid var(--border);
+  }
+
   .card-desc { font-size: 13px; line-height: 1.55; color: var(--text-dim); flex: 1; }
 
   .card-meta {
@@ -742,6 +754,9 @@
 
   <div class="grid" id="grid"></div>
 
+  <div class="section-label">Packages</div>
+  <div class="grid" id="packages-grid"></div>
+
   <footer>
     <div>stockwise-hub · deployed on Vercel</div>
     <div style="display:flex; gap:14px; align-items:center;">
@@ -758,11 +773,13 @@
     JavaScript: "#f0d75a",
     HTML: "#ff8a5c",
     Python: "#4fd1c5",
+    CSS: "#c586c0",
   };
 
   // type: "app" (flagship, shown in Tools+grid, green accent)
   //       "tool" (platform dashboard, Tools only, blue accent)
   //       "project" (grid only)
+  //       "package" (published npm/GH libraries, Packages grid only)
   const ITEMS = [
     {
       id: "tabletop-studio", type: "app",
@@ -915,6 +932,80 @@
       domain: "micro-ui-agent-builder.vercel.app",
       icon: "micro-ui-agent-builder.png",
       lang: "TypeScript", tags: ["ai", "utility"], live: true,
+    },
+    {
+      id: "prompt-guardrails-core", type: "package",
+      name: "prompt-guardrails-core",
+      desc: "Stateless server-side prompt guardrails: policy, input/output validation, structured invocation, and privacy-safe telemetry.",
+      url: "https://www.npmjs.com/package/@bstockwelldev/prompt-guardrails-core",
+      npmUrl: "https://www.npmjs.com/package/@bstockwelldev/prompt-guardrails-core",
+      repo: "https://github.com/bstockwelldev/prompt-guardrails-core",
+      domain: "www.npmjs.com",
+      lang: "TypeScript", tags: ["ai", "utility"], version: "1.1.0",
+    },
+    {
+      id: "prompt-rubric", type: "package",
+      name: "prompt-rubric",
+      desc: "Static prompt quality rubric (D1–D7), Zod schemas, inventory, heuristic scoring, and Markdown reports — no LLM calls.",
+      url: "https://www.npmjs.com/package/@bstockwelldev/prompt-rubric",
+      npmUrl: "https://www.npmjs.com/package/@bstockwelldev/prompt-rubric",
+      repo: "https://github.com/bstockwelldev/prompt-rubric",
+      domain: "www.npmjs.com",
+      lang: "TypeScript", tags: ["ai", "utility"], version: "0.1.0",
+    },
+    {
+      id: "react-skin-system", type: "package",
+      name: "react-skin-system",
+      desc: "Framework-neutral React runtime for html[data-skin] theming, persistence, boot overlay, and cycling.",
+      url: "https://github.com/bstockwelldev/react-skin-system",
+      repo: "https://github.com/bstockwelldev/react-skin-system",
+      domain: "github.com",
+      lang: "TypeScript", tags: ["utility"], version: "0.1.1",
+    },
+    {
+      id: "skin-cli", type: "package",
+      name: "skin-cli",
+      desc: "CLI for initializing and verifying skin registry integration in Next.js and Vite apps.",
+      url: "https://github.com/bstockwelldev/skin-cli",
+      repo: "https://github.com/bstockwelldev/skin-cli",
+      domain: "github.com",
+      lang: "TypeScript", tags: ["utility"], version: "0.1.0",
+    },
+    {
+      id: "skin-pack-virtual-world-town", type: "package",
+      name: "skin-pack-virtual-world-town",
+      desc: "Portable virtual-world town skin metadata and CSS tokens for html[data-skin] hosts.",
+      url: "https://github.com/bstockwelldev/skin-pack-virtual-world-town",
+      repo: "https://github.com/bstockwelldev/skin-pack-virtual-world-town",
+      domain: "github.com",
+      lang: "TypeScript", tags: ["utility"], version: "0.1.1",
+    },
+    {
+      id: "skin-pack-robco-terminal", type: "package",
+      name: "skin-pack-robco-terminal",
+      desc: "Portable RobCo terminal skin metadata and CSS tokens for html[data-skin] hosts.",
+      url: "https://github.com/bstockwelldev/skin-pack-robco-terminal",
+      repo: "https://github.com/bstockwelldev/skin-pack-robco-terminal",
+      domain: "github.com",
+      lang: "CSS", tags: ["utility"], version: "0.1.0",
+    },
+    {
+      id: "skin-pack-jp-90s-park-system", type: "package",
+      name: "skin-pack-jp-90s-park-system",
+      desc: "Portable JP 90s park system skin metadata and CSS tokens for html[data-skin] hosts.",
+      url: "https://github.com/bstockwelldev/skin-pack-jp-90s-park-system",
+      repo: "https://github.com/bstockwelldev/skin-pack-jp-90s-park-system",
+      domain: "github.com",
+      lang: "TypeScript", tags: ["utility"], version: "0.1.1",
+    },
+    {
+      id: "skin-pack-gbc-pocket-workshop", type: "package",
+      name: "skin-pack-gbc-pocket-workshop",
+      desc: "Portable Game Boy Color-inspired skin metadata and CSS tokens for html[data-skin] hosts.",
+      url: "https://github.com/bstockwelldev/skin-pack-gbc-pocket-workshop",
+      repo: "https://github.com/bstockwelldev/skin-pack-gbc-pocket-workshop",
+      domain: "github.com",
+      lang: "TypeScript", tags: ["utility"], version: "0.1.1",
     },
   ];
 
@@ -1072,11 +1163,46 @@
     countLabel.textContent = `${visible.length} of ${total}`;
   }
 
+  // ---------- render: packages grid ----------
+  function packageCardHtml(p) {
+    const dotColor = LANG_COLORS[p.lang] || "#5c5f6b";
+    const pinned = pinStore.has(p.id);
+    return `
+      <div class="card" data-project="${p.id}">
+        <div class="card-top">
+          <div class="card-name-row">
+            ${faviconHtml(p, "--accent-2")}
+            <div class="card-name">${p.name}</div>
+          </div>
+          <div class="card-top-right">
+            ${p.npmUrl ? '<span class="badge pkg">npm</span>' : '<span class="badge muted">unpublished</span>'}
+            ${starButtonHtml(p.id, pinned)}
+          </div>
+        </div>
+        <div class="card-desc">${p.desc}</div>
+        <div class="card-meta">
+          <span class="lang-dot" style="background:${dotColor}"></span>
+          <span>${p.lang}</span>
+          ${p.version ? `<span>v${p.version}</span>` : ""}
+        </div>
+        <div class="card-links">
+          ${p.npmUrl ? `<a class="primary" href="${p.npmUrl}" target="_blank" rel="noopener">npm</a>` : ""}
+          <a class="${p.npmUrl ? "secondary" : "primary"}" href="${p.repo}" target="_blank" rel="noopener">Code</a>
+        </div>
+      </div>`;
+  }
+
+  function renderPackages() {
+    const packages = ITEMS.filter((i) => i.type === "package");
+    document.getElementById("packages-grid").innerHTML = packages.map(packageCardHtml).join("");
+  }
+
   function renderAll() {
     const q = query.trim().toLowerCase();
     renderPinned();
     renderTools(matchedIdSet(q));
     renderGrid();
+    renderPackages();
   }
 
   // ---------- star toggle (event delegation, works across all sections) ----------
